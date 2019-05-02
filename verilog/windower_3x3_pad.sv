@@ -8,14 +8,12 @@
  This module assumes a 3x3 kernel with a stride of 1 and zero padding
 */
 
-module windower
+module windower_3x3_pad
 #(
   parameter IMG_SIZE = 32,
   parameter CH_IN = 3,
   parameter CH_OUT = 64,
-  parameter BW = 16,
-  parameter KERNEL_SIZE = 3,
-  parameter ADDER_CYCLES = 1
+  parameter BW = 16
 )
 (
 input clock,
@@ -23,7 +21,7 @@ input reset,
 input vld_in,
 input [CH_IN-1:0][BW-1:0] in,
 output vld_out,
-output [KERNEL_SIZE*KERNEL_SIZE*CH_IN - 1:0][BW-1:0] window
+output [9*CH_IN - 1:0][BW-1:0] window
 );
 
 reg [IMG_SIZE-1:0][CH_IN-1:0][BW-1:0] delay_1;

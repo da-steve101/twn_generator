@@ -26,7 +26,7 @@ output [CH_OUT-1:0][15:0] out
 wire img_vld;
 wire [9*CH_IN - 1:0][15:0] window;   
 
-windower
+windower_3x3_pad
 #(
   .IMG_SIZE(IMG_SIZE),
   .CH_IN(3),
