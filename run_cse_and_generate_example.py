@@ -28,5 +28,5 @@ if __name__ == "__main__":
     else:
         BW_out = args.BW_out
     f = open( args.module_name + ".v", "w" )
-    f.write( twn.SMM_generate( args.cse_fname, args.module_name, args.BW_in, BW_out, twn.create_serial_add_op ) )
+    f.write( twn.SMM_generate( args.cse_fname, args.module_name, args.BW_in, BW_out, twn.create_normal_add_op ) )
     f.close()

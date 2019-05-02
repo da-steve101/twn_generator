@@ -40,7 +40,7 @@ def set_outputs( depths, output_idxs, BW, no_inputs ):
     computations = []
     for idx, oi in enumerate( output_idxs ):
         delay_reg = max_depth - depths[oi]
-        if delay_reg == 0:
+        if delay_reg == 0 or get_name( oi, no_inputs ) == '0':
             declarations += [ "assign out[" + str(idx) + "] = " + get_name( oi, no_inputs ) + ";" ]
         elif delay_reg == 1:
             declarations += [ "reg [" + str(BW-1) + ":0] out_" + str(idx) + ";" ]
