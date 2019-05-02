@@ -6,9 +6,9 @@ This module generates verilog for a sparse matrix multiply module
 Usage
 -----
 
-~~~
+```python
    module_str = SMM_generate( fname_ops, module_name, BW_in, BW_out, create_op )
-~~~
+```
 
 Where:
 
@@ -19,9 +19,9 @@ Where:
  * create_op => a function that returns verilog for an adder
 
 create_op has the following arguments:
-~~~
+```python
    create_op( names, op_code, shifts, BW_in, BW_out, module_name, reset_name, depth )
-~~~
+```
 
 Where:
 
@@ -49,10 +49,12 @@ Some example create_op functions are provided:
 Example code
 ------------
 
-~~~
+```python
   input_fname = "conv4_tern_op_list.csv"
   module_name = "smm_conv4"
   BW_in = 4
   BW_out = 4
   SMM.SMM_generate( input_fname, module_name, BW_in, BW_out, SMM.create_serial_add_op )
-~~~
+  # need to include the serial_adder too for the create_serial_add_op
+  SMM.write_serial_adder_module( "serial_adder.v" )
+```
