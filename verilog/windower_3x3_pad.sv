@@ -53,6 +53,7 @@ always @( posedge clock ) begin
       img_vld <= 0;
    end else begin
       if ( window_vld[IMG_SIZE+1] | row_cntr != 0 | col_cntr != 0 ) begin
+	 assert (window_vld[IMG_SIZE+1]) else $error("Valid must be set for the entire image");
 	 col_cntr <= col_cntr + 1;
 	 if ( col_cntr == IMG_SIZE - 1 ) begin
 	    row_cntr <= row_cntr + 1;

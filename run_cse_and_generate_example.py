@@ -15,6 +15,8 @@ def get_args():
                          help = "The bitwidth of the inputs" )
     parser.add_argument( "--BW_out", type = int,
                          help = "The bitwidth of the outputs, defaults to BW_in if not given" )
+    parser.add_argument( "--serial", action="store_true",
+                         help = "Use serial adders instead" )
     return parser.parse_args()
 
 if __name__ == "__main__":
@@ -28,5 +30,9 @@ if __name__ == "__main__":
     else:
         BW_out = args.BW_out
     f = open( args.module_name + ".v", "w" )
-    f.write( twn.SMM_generate( args.cse_fname, args.module_name, args.BW_in, BW_out, twn.create_normal_add_op ) )
+    create_op = twn.create_normal_add_op
+    if args.serial:
+        twn.write_serial_adder_module( "serial_adder.v" )
+        create_op = twn.create_serial_add_op
+    f.write( twn.SMM_generate( args.cse_fname, args.module_name, args.BW_in, BW_out, create_op ) )
     f.close()
