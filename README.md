@@ -11,7 +11,7 @@ This only has a quarter of the throughput but also a quarter of the area in adde
 
 To run the CSE and generate the adders, run:
 
-```python
+```bash
    python3 run_cse_and_generate_example.py --matrix_fname data/conv1_weights.csv --cse_fname data/conv1_tern_op_list.csv --module_name lyr1 --BW_in 16
    python3 run_cse_and_generate_example.py --matrix_fname data/conv1_weights.csv --cse_fname data/conv1_tern_op_list.csv --module_name lyr1_serial --BW_in 4 --serial
 ```
