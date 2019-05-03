@@ -38,3 +38,7 @@ For the 4 bit serial adder example:
 
 The top level design modules are conv_windower.sv and conv_windower_serial.sv respectively.
 The simulation test sources are conv_windower_test.sv and conv_windower_serial.sv
+
+For more details on [CSE](docs/CSE.md)
+
+For more details on [SMM](docs/SMM.md)
