@@ -29,10 +29,10 @@ if __name__ == "__main__":
         BW_out = args.BW_in
     else:
         BW_out = args.BW_out
-    f = open( args.module_name + ".v", "w" )
+    f = open( args.module_name + ".sv", "w" )
     create_op = twn.create_normal_add_op
     if args.serial:
-        twn.write_serial_adder_module( "serial_adder.v" )
+        twn.write_serial_adder_module( "serial_adder.sv" )
         create_op = twn.create_serial_add_op
     f.write( twn.SMM_generate( args.cse_fname, args.module_name, args.BW_in, BW_out, create_op ) )
     f.close()

@@ -18,9 +18,9 @@ To run the CSE and generate the adders, run:
 
 This will generate 3 files:
 
- * lyr1.v => the 16 bit adder version
- * lyr1_serial.v => the 4 bit serial adder version
- * serial_adder.v => a helper module implementing the serial adder
+ * lyr1.sv => the 16 bit adder version
+ * lyr1_serial.sv => the 4 bit serial adder version
+ * serial_adder.sv => a helper module implementing the serial adder
 
 In the verilog/ directory the following can be used to verify the 16 bit adder example:
 
