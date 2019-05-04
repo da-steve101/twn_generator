@@ -9,4 +9,5 @@ from .add_ops import create_serial_add_op
 from .add_ops import create_normal_add_op
 from .add_ops import write_serial_adder_module
 
-name = "twn_generator"
+__name__ = "twn_generator"
+__version__ = "0.0.2"

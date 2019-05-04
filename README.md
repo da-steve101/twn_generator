@@ -3,6 +3,14 @@ Twn_Generator
 
 This package generates verilog code for convolutions in Ternary Neural Networks
 
+Installation
+------------
+To install run
+
+```
+  pip3 install twn_generator
+```
+
 There are two example verilog use cases for computing the convolution
 
 The first uses 16 bit adders to compute the convolution quickly.
