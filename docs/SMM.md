@@ -54,7 +54,8 @@ Example code
   module_name = "smm_conv4"
   BW_in = 4
   BW_out = 4
-  SMM.SMM_generate( input_fname, module_name, BW_in, BW_out, SMM.create_serial_add_op )
+  import twn_generator as twn
+  twn.SMM_generate( input_fname, module_name, BW_in, BW_out, twn.create_serial_add_op )
   # need to include the serial_adder too for the create_serial_add_op
-  SMM.write_serial_adder_module( "serial_adder.v" )
+  twn.write_serial_adder_module( "serial_adder.v" )
 ```

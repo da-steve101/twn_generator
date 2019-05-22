@@ -18,13 +18,14 @@ For the following example:
  * fname_out = the output op list
 
 ~~~
-    matrix, no_in, no_out, initial_no_adds = CSE.get_matrix( fname )
-    matrix = CSE.bu_CSE( matrix ) # perform bottom up subepression elimination
-    # or matrix = CSE.td_CSE( matrix ) to perform top down
+    import twn_generator as twn
+    matrix, no_in, no_out, initial_no_adds = twn.get_matrix( fname )
+    matrix = twn.bu_CSE( matrix ) # perform bottom up subepression elimination
+    # or matrix = twn.td_CSE( matrix ) to perform top down
     # turn the matrix into an ops list to $fname_out
-    CSE.write_output( fname_out, matrix, initial_no_adds, no_in, no_out )
+    twn.write_output( fname_out, matrix, initial_no_adds, no_in, no_out )
     # verify that the tree generated computes the same result as the matrix
-    CSE.verify_tree( fname, fname_out )
+    twn.verify_tree( fname, fname_out )
 ~~~
 
 Top Down CSE

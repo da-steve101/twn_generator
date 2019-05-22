@@ -90,6 +90,7 @@ def make_tree( matrix, no_in, no_out ):
     outputs = {}
     op_list = []
     op_idx = no_in
+    max_depth = 0
     while len( outputs ) < len(dependancies):
         for x in dependancies:
             if x not in outputs: # haven't already done
@@ -104,13 +105,15 @@ def make_tree( matrix, no_in, no_out ):
                         if i >= no_in:
                             j = outputs[ i + no_out - no_in ]
                             d = output_depths[ i + no_out - no_in ]
-                        assert matrix[i,x] != 0, "has dependancy with zero?"
+                        assert matrix[i,x] != 0, "has dependancy with zero? - invalid matrix"
                         idxs_in += [ (j, d, matrix[i,x] > 0) ]
                     new_ops, op_idx, output_idx, curr_d = create_ops_for_tree( op_idx, idxs_in )
                     outputs[ x ] = output_idx
                     output_depths[ x ] = curr_d
+                    if curr_d > max_depth:
+                        max_depth = curr_d
                     op_list += new_ops
-    return op_list, [ outputs[i] for i in range( no_out ) ]
+    return op_list, [ outputs[i] for i in range( no_out ) ], max_depth
 
 def reverse_check_result( orig_mat, new_mat ):
     '''
@@ -153,13 +156,14 @@ def write_output( fname, matrix, initial_no_adds, no_in, no_out, remove_neg_ops 
            str( final_no_adds ) + " or " + str( final_no_adds*100/initial_no_adds ) + "%" )
     f_out = open( fname, "w" )
     wrt = csv.writer( f_out )
-    tree_ops, outputs = make_tree( np.transpose( matrix ), no_in, no_out )
+    tree_ops, outputs, max_depth = make_tree( np.transpose( matrix ), no_in, no_out )
     tmp = wrt.writerow( outputs )
     for x in tree_ops:
         tmp = wrt.writerow( x )
     f_out.close()
     if remove_neg_ops:
         remove_negate_ops( fname )
+    return max_depth
 
 def compute_op( a, b, c, op_code ):
     if op_code == 0:
