@@ -41,7 +41,7 @@ serial_adder #(
  .c(''' + names[0] + ''')
 );
 '''
-    return ser_add_module
+    return ser_add_module, BW_in
 
 def write_serial_adder_module( fname ):
     f = open( fname, "w" )
@@ -119,4 +119,4 @@ always @( posedge clock ) begin
 ''' + names[0] + " <= " + op_str + ''';
 end
 '''
-    return add_op
+    return add_op, BW_in
