@@ -65,7 +65,6 @@ def get_AB( mean, var, gamma, beta, scaling_factor, bias = 0, thres = 10**15 ):
     a = gamma / stddev
     a = a * ( a < thres ) # if very big then prob is ignored anyway: ie) stddev = 0
     b = beta - a * mean
-    print(a, b, mean, var, gamma, beta, scaling_factor)
     a = a * scaling_factor
     return ( a, b )
 

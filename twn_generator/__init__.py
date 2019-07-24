@@ -20,4 +20,4 @@ from .helper_compute import maxpool1d
 from .helper_compute import relu
 
 __name__ = "twn_generator"
-__version__ = "0.0.4"
+__version__ = "0.0.6"
