@@ -78,6 +78,7 @@ output [""" + str( len(output_idxs) - 1) + ":0][" + str(BW_out-1) + """:0] out
     depths = {}
     bws = {}
     depths[-1] = 0
+    bws[-1] = 0
     for i in range( no_inputs ):
         depths[i] = 0
         bws[i] = BW_in
