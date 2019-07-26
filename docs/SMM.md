@@ -50,12 +50,18 @@ Example code
 ------------
 
 ```python
+  import twn_generator as twn
   input_fname = "conv4_tern_op_list.csv"
   module_name = "smm_conv4"
   BW_in = 4
   BW_out = 4
-  import twn_generator as twn
   twn.SMM_generate( input_fname, module_name, BW_in, BW_out, twn.create_serial_add_op )
   # need to include the serial_adder too for the create_serial_add_op
   twn.write_serial_adder_module( "serial_adder.v" )
+  # if you want to generate smm_conv4.c and smm_conv4.h
+  twn.write_tree_to_c( input_fname, module_name )
+  # can also use twn.write_bn_relu_to_c( input_bn_f, r_shift, output_func )
+  # input_bn_f => csv with 2 rows, a and b as integers
+  # r_shift => right shift to do after the multiply
+  # output_func => output func to write to, will write to output_func.c and output_func.h
 ```

@@ -50,7 +50,7 @@ def op_to_str( op, no_in, prefix = "in" ):
     op_str += ";\n"
     return op_str
 
-def write_bn_relu( bn_vars_fname, r_shift, bn_relu_out ):
+def write_bn_relu_to_c( bn_vars_fname, r_shift, bn_relu_out ):
     f_ops = open( bn_vars_fname )
     rdr = csv.reader( f_ops )
     data = [ [ int(x) for x in y ] for y in rdr ]
