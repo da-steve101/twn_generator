@@ -18,6 +18,9 @@ from .helper_compute import get_AB_quantized
 from .helper_compute import maxpool2d
 from .helper_compute import maxpool1d
 from .helper_compute import relu
+from .convert_tree_to_c import write_matrix_to_c_ary
+from .convert_tree_to_c import write_bn_relu
+from .convert_tree_to_c import write_tree_to_c
 
 __name__ = "twn_generator"
 __version__ = "0.0.8"
