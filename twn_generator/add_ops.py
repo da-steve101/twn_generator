@@ -18,11 +18,11 @@ def create_serial_add_op( names, op_code, shifts, BW_in, BW_out, module_name, re
     reset_name -> the reset to use, will assert the reset on the cycle before use
     depth -> how deep the op is down the tree, inputs have a depth of 0 ( not used in this op )
     '''
-    assert names[3] == '0', "Three inputs not implemented in this adder"
+    assert names[3] == str(BW_out) + "'h0", "Three inputs not implemented in this adder"
     assert shifts[0] == 0 and shifts[1] == 0, "Shift registers not implemented in this adder"
     # deal with neg regs
     op_code = op_code >> 1
-    if names[2] == '0' and op_code == 0:
+    if names[2] == str(BW_out) + "'h0" and op_code == 0:
         op_code = 1;
     assert op_code != 0, "Cannot be both negative inputs for serial adder for module " + module_name
     neg_b = ( op_code != 3 )*1
