@@ -6,14 +6,19 @@ import os
 def write_matrix_to_c_ary( fname ):
     f = open( fname )
     rdr = csv.reader( f )
-    data = [ x for x in rdr ]
-    name = fname.split(".")[0]
-    f_out = open( name + ".h", "w" )
-    f_out.write( "short %s[%d] = { " % ( name, len(data)*len(data[0]) ) )
-    for i in range( len(data[0]) ):
-        f_out.write( ", ".join( [ data[j][i] for j in range(len(data)) ] ) )
-        if i < len(data) - 1:
-            f_out.write( ",\n" )
+    data = [ [ float(y) for y in x ] for x in rdr ]
+    dirname = os.path.dirname( fname )
+    mod_file = os.path.basename( fname )
+    name = mod_file.split(".")[0]
+    f_out = open( dirname + "/" + name + ".h", "w" )
+    name_u = name.upper()
+    f_out.write( "#define %s_LEN %s\n" % ( name_u, len(data) ) )
+    f_out.write( "#define %s_FILT %s\n" % ( name_u, len(data[0]) ) )
+    f_out.write( "const float %s[%s_LEN*%s_FILT] = { " % ( name, name_u, name_u ) )
+    for i in range( len(data) ):
+        f_out.write( ", ".join( [ str(x) for x in data[i] ] ) )
+        if i != len(data) - 1:
+            f_out.write( ", " )
     f_out.write( "};\n" )
     f_out.close()
 
@@ -61,16 +66,16 @@ def write_bn_relu_to_c( bn_vars_fname, r_shift, bn_relu_out ):
     f_out_c = open( bn_relu_out + ".c", "w" )
     f_out_h = open( bn_relu_out + ".h", "w" )
     f_out_c.write( "#include \"%s.h\"\n" % func_name )
-    function = "short * %s( const short in[%d], short out[%d] )" % ( func_name, n_vars, n_vars )
+    function = "short * %s( short in[%s_FILT] )" % ( func_name, func_name.upper() )
     f_out_c.write( function + " {\n" )
+    f_out_h.write( "#define %s_FILT %d\n" %( func_name.upper(), n_vars ) )
     f_out_h.write( function + ";\n" )
     f_out_h.close()
     for i in range( n_vars ):
-        out_n = "out[%d]" % i
         in_n = "in[%d]" % i
-        f_out_c.write( "%s = ((short)(((short)%d)*%s))+((short)%d)) >> %d;\n" % ( out_n, a[i], in_n, b[i], r_shift ) )
-        f_out_c.write( "%s = %s * ( %s > 0 );\n" % ( out_n, out_n, out_n ) )
-    f_out_c.write( "return out;\n}\n" )
+        f_out_c.write( "%s = (short)(((%d*((int)%s))+%d) >> %d);\n" % ( in_n, a[i], in_n, b[i], r_shift ) )
+        f_out_c.write( "%s = %s * ( %s > 0 );\n" % ( in_n, in_n, in_n ) )
+    f_out_c.write( "return in;\n}\n" )
     f_out_c.close()
     return
 
@@ -86,8 +91,10 @@ def write_tree_to_c( op_fname, conv_out ):
     f_out_c = open( conv_out + ".c", "w" )
     f_out_h = open( conv_out + ".h", "w" )
     f_out_c.write( "#include \"%s.h\"\n" % func_name )
-    function = "short * %s( const short in[%d], short out[%d] )" % (func_name, no_in, no_out)
+    function = "short * %s( const short in[%s_IN], short out[%s_OUT] )" % ( func_name, func_name.upper(), func_name.upper() )
     f_out_c.write( function + " {\n" )
+    f_out_h.write( "#define %s_IN %d\n" % (func_name.upper(), no_in) )
+    f_out_h.write( "#define %s_OUT %d\n" %( func_name.upper(), no_out) )
     f_out_h.write( function + ";\n" )
     f_out_h.close()
     for op in ops:
