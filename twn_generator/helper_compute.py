@@ -68,34 +68,25 @@ def get_AB( mean, var, gamma, beta, scaling_factor, bias = 0, thres = 10**15 ):
     a = a * scaling_factor
     return ( a, b )
 
-def get_AB_quantized( mean, var, gamma, beta, s_in, bits, is_round = True ):
+def get_AB_quantized( mean, var, gamma, beta, eta_r, is_round = True ):
     '''
     Get variables to perform batch norm with a limited number of bits in and out
     mean, var, gamma, beta => floating point variables from batch norm
-    s_in => the amount to input is scaled by
-    bits => the number of bits the output should be
+    eta_r => the amount to input is scaled by
     is_round => if a rounding function was used to quantize or if False, assumes ceil function
     returns ( a, b, x_min, x_max )
-    if x < x_min => 0
-    if x >= x_max => ( 1 << bits ) - 1
-    else use ( a*x + b ) >> ( bits + 2 )
     '''
-    a = gamma / np.sqrt( var + 0.001 )
+    a = gamma / np.sqrt( var )
     b = beta - a * mean
-    s_out = ( 1 << bits ) - 1
-    a *= s_out/s_in
-    b *= s_out
+    a *= eta_r
     if is_round:
-        x_min = np.floor( s_in*( 1/2 - b )/a)
-        x_max = np.ceil( s_in*(s_out - 1/2 - b )/a)
         b += 0.4999999
+        x_min = ( 1/2 - b )/a
+        x_max = (1 - 1/2 - b )/a
     else:
-        x_min = np.floor(-b*s_in/a)
-        x_max = np.ceil( s_in*( s_out - b )/a )
         b += 0.999999
-    prec_s = ( 1 << ( bits + 2 ) )
-    a = np.round( a * prec_s ) / prec_s
-    b = np.round( b * prec_s ) / prec_s
+        x_min = -b/a
+        x_max = ( 1 - b )/a
     return a, b, x_min, x_max
 
 def maxpool2d( img, kern_and_stride = 2 ):
