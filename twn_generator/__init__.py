@@ -14,7 +14,6 @@ from .helper_compute import get_ternary
 from .helper_compute import conv2d
 from .helper_compute import conv1d
 from .helper_compute import get_AB
-from .helper_compute import get_AB_quantized
 from .helper_compute import maxpool2d
 from .helper_compute import maxpool1d
 from .helper_compute import relu
@@ -23,4 +22,4 @@ from .convert_tree_to_c import write_bn_relu_to_c
 from .convert_tree_to_c import write_tree_to_c
 
 __name__ = "twn_generator"
-__version__ = "0.1.1"
+__version__ = "0.1.2"
