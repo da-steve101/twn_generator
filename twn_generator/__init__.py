@@ -23,4 +23,4 @@ from .convert_tree_to_c import write_bn_relu_to_c
 from .convert_tree_to_c import write_tree_to_c
 
 __name__ = "twn_generator"
-__version__ = "0.0.9"
+__version__ = "0.1.0"

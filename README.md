@@ -1,4 +1,4 @@
-Twn_Generator v0.0.8
+Twn_Generator v0.1.0
 ====================
 
 This package generates c or verilog code for convolutions in Ternary Neural Networks
