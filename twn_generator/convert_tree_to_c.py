@@ -3,7 +3,7 @@ import sys
 import csv
 import os
 
-def write_matrix_to_c_ary( fname ):
+def write_matrix_to_c_ary( fname, extra_str = "" ):
     f = open( fname )
     rdr = csv.reader( f )
     data = [ [ float(y) for y in x ] for x in rdr ]
@@ -12,6 +12,7 @@ def write_matrix_to_c_ary( fname ):
     name = mod_file.split(".")[0]
     f_out = open( dirname + "/" + name + ".h", "w" )
     name_u = name.upper()
+    f_out.write( "%s\n" % extra_str )
     f_out.write( "#define %s_LEN %s\n" % ( name_u, len(data) ) )
     f_out.write( "#define %s_FILT %s\n" % ( name_u, len(data[0]) ) )
     f_out.write( "const float %s[%s_LEN*%s_FILT] = { " % ( name, name_u, name_u ) )
@@ -55,7 +56,7 @@ def op_to_str( op, no_in, prefix = "in" ):
     op_str += ";\n"
     return op_str
 
-def write_bn_relu_to_c( bn_vars_fname, r_shift, bn_relu_out ):
+def write_bn_relu_to_c( bn_vars_fname, r_shift, bn_relu_out, quantize_to = None ):
     f_ops = open( bn_vars_fname )
     rdr = csv.reader( f_ops )
     data = [ [ int(x) for x in y ] for y in rdr ]
@@ -75,6 +76,10 @@ def write_bn_relu_to_c( bn_vars_fname, r_shift, bn_relu_out ):
         in_n = "in[%d]" % i
         f_out_c.write( "%s = (short)(((%d*((int)%s))+%d) >> %d);\n" % ( in_n, a[i], in_n, b[i], r_shift ) )
         f_out_c.write( "%s = %s * ( %s > 0 );\n" % ( in_n, in_n, in_n ) )
+        if quantize_to is not None:
+            shift, max_val = quantize_to
+            f_out_c.write( "%s = %s >> %d;\n" % ( in_n, in_n, shift ) )
+            f_out_c.write( "%s = %s > %d ? %d : %s;\n" % ( in_n, in_n, max_val, max_val, in_n ) )
     f_out_c.write( "return in;\n}\n" )
     f_out_c.close()
     return
