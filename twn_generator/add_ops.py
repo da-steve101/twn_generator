@@ -120,3 +120,52 @@ always @( posedge clock ) begin
 end
 '''
     return add_op, BW_in
+
+def create_pop_count_op( names, op_code, shifts, BW_in, BW_out, module_name, reset_name, depth ):
+    '''
+    Creates an popcount tree op
+    names = [ out_name, a_name, b_name, c_name ]
+    op_code = 0 -> - a - b - c
+    op_code = 1 -> - a - b + c
+    op_code = 2 -> - a + b - c
+    op_code = 3 -> - a + b + c
+    op_code = 4 ->   a - b - c
+    op_code = 5 ->   a - b + c
+    op_code = 6 ->   a + b - c
+    op_code = 7 ->   a + b + c
+    shifts = [ shift_a, shift_b, shift_c ]
+    BW_in -> the bitwidth of the input
+    BW_out -> the bitwidth of the output
+    module_name -> the name to call the adder
+    reset_name -> the reset to use, will assert the reset on the cycle before use ( not used in this op )
+    depth -> how deep the op is down the tree, inputs have a depth of 0 ( not used in this op )
+    '''
+    assert names[3] == str(BW_out) + "'h0", "Three inputs not implemented in this adder"
+    assert shifts[0] == 0 and shifts[1] == 0, "Shift registers not implemented in this adder"
+    # use depth to work out bits needed
+    bw = depth + BW_in + 3
+    if bw > BW_out:
+        bw = BW_out
+    op_str = ""
+    if depth == 0:
+        op_str = " $signed( "
+    op_mod = 4
+    for n in names[1:3]:
+        if op_code < op_mod:
+            op_str += " - "
+        elif op_mod != 4:
+            op_str += " + "
+        op_code = op_code % op_mod
+        op_mod = op_mod >> 1
+        if depth == 0:
+            op_str += " { %d'b0, %s } " % ( bw - BW_in, n )
+        else:
+            op_str += "$signed( %s ) " % n
+    if depth == 0:
+        op_str += " )"
+    add_op = '''reg [%d:0] %s;
+always @( posedge clock ) begin
+%s <= %s;
+end
+''' % ( bw - 1, names[0], names[0], op_str )
+    return add_op, bw
