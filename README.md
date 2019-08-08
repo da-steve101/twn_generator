@@ -11,6 +11,9 @@ To install run
   pip3 install twn_generator
 ```
 
+Example Usage
+-------------
+
 There are two example verilog use cases for computing the convolution
 
 The first uses 16 bit adders to compute the convolution quickly.
@@ -50,3 +53,10 @@ The simulation test sources are conv_windower_test.sv and conv_windower_serial.s
 For more details on [CSE](docs/CSE.md)
 
 For more details on [SMM](docs/SMM.md)
+
+Copyleft
+--------
+
+The output of the generator ( the verilog or c in this case ) is not under GPL
+
+See: [In what cases is the output of a GPL program covered by the GPL too?](https://www.gnu.org/licenses/gpl-faq.en.html#WhatCaseIsOutputGPL)
