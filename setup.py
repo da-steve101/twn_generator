@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="twn_generator",
-    version="0.1.4",
+    version="0.1.5",
     author="Stephen Tridgell",
     author_email="stephen.tridgell@sydney.edu.au",
     description="A package to generate verilog for TNNs",
