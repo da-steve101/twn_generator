@@ -60,3 +60,21 @@ Copyleft
 The output of the generator ( the verilog or c in this case ) is not under GPL
 
 See: [In what cases is the output of a GPL program covered by the GPL too?](https://www.gnu.org/licenses/gpl-faq.en.html#WhatCaseIsOutputGPL)
+
+Citation
+--------
+
+Please cite:
+
+```
+@article{tridgell2019unrolling,
+  title={Unrolling Ternary Neural Networks},
+  author={Tridgell, Stephen and Kumm, Martin and Hardieck, Martin and Boland, David and Moss, Duncan and Zipf, Peter and Leong, Philip HW},
+  journal={ACM Transactions on Reconfigurable Technology and Systems (TRETS)},
+  volume={12},
+  number={4},
+  pages={22},
+  year={2019},
+  publisher={ACM}
+}
+```
